@@ -27,7 +27,7 @@ const LightTextarea = ({ label, ...props }) => (
 );
 
 export default function ProjectsPage() {
-  const { isAdmin } = useAuth();
+  const { isAdmin, user } = useAuth();
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
