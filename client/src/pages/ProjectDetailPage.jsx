@@ -150,33 +150,33 @@ export default function ProjectDetailPage() {
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+        <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/projects')}
-            className="w-10 h-10 rounded-lg border border-gray-200 text-gray-500 flex items-center justify-center hover:bg-gray-50 transition-colors shrink-0"
+            className="w-9 h-9 lg:w-10 lg:h-10 rounded-lg border border-gray-200 text-gray-500 flex items-center justify-center hover:bg-gray-50 transition-colors shrink-0"
           >
-            <span className="material-symbols-outlined">arrow_back</span>
+            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>arrow_back</span>
           </button>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: project.color }} />
+          <div className="min-w-0">
+            <h1 className="text-lg lg:text-2xl font-bold text-gray-900 flex items-center gap-2 truncate">
+              <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: project.color }} />
               {project.title}
             </h1>
-            <p className="text-sm text-gray-500 mt-1 max-w-xl line-clamp-1">{project.description}</p>
+            <p className="text-sm text-gray-500 mt-0.5 line-clamp-1">{project.description}</p>
           </div>
         </div>
         
-        <div className="flex items-center gap-3">
-          <div className="flex -space-x-2 mr-2">
-            {project.members?.slice(0, 5).map(m => (
-              <div key={m._id} className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold border-2 border-white shadow-sm" title={m.name}>
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <div className="flex -space-x-2">
+            {project.members?.slice(0, 4).map(m => (
+              <div key={m._id} className="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold border-2 border-white shadow-sm" title={m.name}>
                 {getInitials(m.name)}
               </div>
             ))}
-            {project.members?.length > 5 && (
-              <div className="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center text-xs font-bold border-2 border-white shadow-sm">
-                +{project.members.length - 5}
+            {project.members?.length > 4 && (
+              <div className="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center text-xs font-bold border-2 border-white shadow-sm">
+                +{project.members.length - 4}
               </div>
             )}
           </div>
@@ -190,21 +190,22 @@ export default function ProjectDetailPage() {
               <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>group_add</span>
             </button>
           )}
-          <button onClick={openCreateTask} className="btn-primary">
+          <button onClick={openCreateTask} className="btn-primary text-sm">
             <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>add</span>
-            Add Task
+            <span className="hidden sm:inline">Add Task</span>
+            <span className="sm:hidden">Add</span>
           </button>
         </div>
       </div>
 
       {/* Kanban Board Container */}
-      <div className="flex-1 overflow-x-auto pb-4 -mx-4 px-4 lg:mx-0 lg:px-0">
-        <div className="flex gap-6 min-w-max h-full">
+      <div className="flex-1 overflow-x-auto pb-4 -mx-4 px-4 lg:mx-0 lg:px-0" style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
+        <div className="flex gap-4 lg:gap-6 min-w-max h-full">
           {COLUMNS.map(col => {
             const colTasks = tasks.filter(t => t.status === col.key);
             
             return (
-              <div key={col.key} className="w-[320px] flex flex-col bg-gray-50/80 rounded-xl p-4 border border-gray-200">
+              <div key={col.key} className="w-[calc(100vw-56px)] sm:w-[320px] flex flex-col bg-gray-50/80 rounded-xl p-3 lg:p-4 border border-gray-200 flex-shrink-0" style={{ scrollSnapAlign: 'start' }}>
                 <div className="flex items-center justify-between mb-4 px-1">
                   <h3 className="font-semibold text-gray-900 text-sm">{col.label}</h3>
                   <span className="text-xs font-medium bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">

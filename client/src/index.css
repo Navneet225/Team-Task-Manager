@@ -232,3 +232,16 @@
 .animation-delay-6000 {
   animation-delay: 6s;
 }
+
+/* ── Scale-in animation for dropdowns/modals ── */
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95) translateY(-4px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.animate-scale-in { animation: scaleIn 0.15s ease-out forwards; }
+
+/* ── Mobile touch targets ── */
+@media (max-width: 1024px) {
+  .btn-primary { padding: 11px 18px; }
+  .task-card   { padding: 14px; }
+}
