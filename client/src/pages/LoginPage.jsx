@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { authApi } from '../api';
@@ -12,6 +12,7 @@ export default function LoginPage() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const { login } = useAuth();
   const navigate = useNavigate();
+  const loginSectionRef = useRef(null);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -23,6 +24,10 @@ export default function LoginPage() {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  const scrollToLogin = () => {
+    loginSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,18 +55,16 @@ export default function LoginPage() {
     }
   };
 
-  /* ── Shared Branding Content ── */
-  const BrandingContent = ({ compact = false }) => (
-    <div className={`relative flex flex-col items-center justify-center w-full h-full ${compact ? 'py-10 px-6' : 'px-16'}`}>
+  /* ── Branding Content ── */
+  const BrandingHero = () => (
+    <div className="relative flex flex-col items-center justify-center w-full h-screen overflow-hidden bg-gradient-to-br from-indigo-100/80 via-purple-50 to-pink-100/50 border-b border-white/50">
       {/* Logo */}
-      {!compact && (
-        <div className="absolute top-8 left-10 z-20 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-lg">
-            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>sync</span>
-          </div>
-          <span className="font-extrabold text-gray-900 tracking-tight text-xl">TeamSync</span>
+      <div className="absolute top-8 left-1/2 -translate-x-1/2 lg:left-10 lg:translate-x-0 z-20 flex items-center gap-3">
+        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-lg">
+          <span className="material-symbols-outlined" style={{ fontSize: '22px' }}>sync</span>
         </div>
-      )}
+        <span className="font-extrabold text-gray-900 tracking-tight text-2xl">TeamSync</span>
+      </div>
 
       {/* Grid overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]"></div>
@@ -71,153 +74,141 @@ export default function LoginPage() {
       <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-purple-300/30 rounded-full mix-blend-multiply filter blur-[80px] animate-antigravity-reverse animation-delay-2000" style={{ transform: `translate(${mousePos.x * 3}px, ${mousePos.y * 3}px)` }} />
       <div className="absolute top-1/2 left-1/2 w-[250px] h-[250px] bg-pink-300/20 rounded-full mix-blend-multiply filter blur-[50px] animate-levitate animation-delay-4000" />
 
-      {/* Floating cards — hidden on compact mobile */}
-      {!compact && (
-        <>
+      {/* Floating UI Elements */}
+      <div className="relative z-10 w-full max-w-6xl px-6 flex flex-col items-center">
+        
+        {/* Floating Cards (Desktop only for full effect, simplified for mobile) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden hidden md:block">
           {/* Task List Card */}
           <div
-            className="absolute top-[15%] right-[15%] w-56 bg-white/60 backdrop-blur-md border border-white/60 rounded-2xl p-4 shadow-[0_20px_40px_-15px_rgba(99,102,241,0.15)] animate-antigravity animation-delay-2000 z-0"
+            className="absolute top-[15%] right-[10%] w-64 bg-white/60 backdrop-blur-md border border-white/60 rounded-2xl p-5 shadow-float animate-antigravity animation-delay-2000"
             style={{ transform: `rotate(-8deg) translate(${mousePos.x}px, ${mousePos.y}px)` }}
           >
-            <div className="w-8 h-8 rounded-lg bg-indigo-100/80 mb-4 flex items-center justify-center">
-              <span className="material-symbols-outlined text-indigo-500 text-[18px]">task_alt</span>
+            <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center mb-4 shadow-sm">
+              <span className="material-symbols-outlined text-indigo-600 text-[20px]">task_alt</span>
             </div>
             <div className="space-y-3">
-              <div className="h-2.5 w-3/4 bg-gray-200/80 rounded-full"></div>
-              <div className="h-2.5 w-1/2 bg-gray-200/80 rounded-full"></div>
-              <div className="h-2.5 w-5/6 bg-gray-200/80 rounded-full"></div>
+              <div className="h-3 w-3/4 bg-gray-200/80 rounded-full"></div>
+              <div className="h-3 w-1/2 bg-gray-200/80 rounded-full"></div>
+              <div className="h-3 w-5/6 bg-gray-200/80 rounded-full"></div>
             </div>
           </div>
 
-          {/* Progress Ring Card */}
+          {/* Progress Card */}
           <div
-            className="absolute bottom-[20%] left-[10%] w-44 bg-white/70 backdrop-blur-lg border border-white/60 rounded-2xl p-5 shadow-[0_20px_40px_-15px_rgba(99,102,241,0.2)] animate-antigravity z-0"
+            className="absolute bottom-[20%] left-[5%] w-48 bg-white/70 backdrop-blur-lg border border-white/60 rounded-2xl p-6 shadow-float animate-antigravity"
             style={{ transform: `rotate(5deg) translate(${-mousePos.x * 1.5}px, ${-mousePos.y * 1.5}px)` }}
           >
-            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Progress</h4>
-            <div className="relative w-20 h-20 mx-auto">
+            <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-5">Workspace Velocity</h4>
+            <div className="relative w-24 h-24 mx-auto">
               <svg className="w-full h-full transform -rotate-90">
-                <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-gray-100" />
-                <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="226" strokeDashoffset="67" className="text-indigo-500 transition-all duration-1000 ease-out" />
+                <circle cx="48" cy="48" r="44" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-gray-100" />
+                <circle cx="48" cy="48" r="44" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="276" strokeDashoffset="82" className="text-indigo-500 transition-all duration-1000 ease-out" />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-lg font-bold text-gray-800">70%</span>
+                <span className="text-2xl font-black text-gray-900">70%</span>
               </div>
             </div>
           </div>
 
           {/* Stats Card */}
           <div
-            className="absolute top-[40%] left-[5%] w-36 bg-white/50 backdrop-blur-sm border border-white/40 rounded-[20px] p-4 shadow-[0_15px_30px_-10px_rgba(124,58,237,0.15)] animate-levitate animation-delay-6000 z-0"
+            className="absolute top-[35%] left-[8%] w-40 bg-white/50 backdrop-blur-sm border border-white/40 rounded-[24px] p-5 shadow-float animate-levitate animation-delay-6000"
             style={{ transform: `rotate(-3deg) translate(${mousePos.x * 2}px, ${-mousePos.y * 2}px)` }}
           >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
-                <span className="material-symbols-outlined text-purple-600">local_fire_department</span>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center shadow-sm">
+                <span className="material-symbols-outlined text-purple-600" style={{ fontSize: '24px' }}>local_fire_department</span>
               </div>
               <div>
                 <div className="text-2xl font-black text-gray-900">24</div>
-                <div className="text-[10px] font-bold text-gray-500 uppercase">Tasks</div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Compact floating cards for mobile */}
-      {compact && (
-        <div className="flex items-center justify-center gap-4 mb-6 relative z-10">
-          <div className="bg-white/70 backdrop-blur-md border border-white/60 rounded-xl p-3 shadow-md flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
-              <span className="material-symbols-outlined text-purple-600" style={{ fontSize: '18px' }}>local_fire_department</span>
-            </div>
-            <div>
-              <div className="text-lg font-black text-gray-900">24</div>
-              <div className="text-[9px] font-bold text-gray-500 uppercase">Tasks</div>
-            </div>
-          </div>
-          <div className="bg-white/70 backdrop-blur-md border border-white/60 rounded-xl p-3 shadow-md">
-            <div className="text-[9px] font-bold text-gray-500 uppercase mb-2">Progress</div>
-            <div className="relative w-12 h-12 mx-auto">
-              <svg className="w-full h-full transform -rotate-90">
-                <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="5" fill="transparent" className="text-gray-100" />
-                <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="5" fill="transparent" strokeDasharray="125" strokeDashoffset="37" className="text-indigo-500" />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xs font-bold text-gray-800">70%</span>
+                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Active</div>
               </div>
             </div>
           </div>
         </div>
-      )}
 
-      {/* Headline */}
-      <div
-        className={`relative z-10 text-center flex flex-col items-center ${compact ? '' : 'max-w-2xl'}`}
-        style={compact ? {} : { transform: `translate(${-mousePos.x * 0.5}px, ${-mousePos.y * 0.5}px)` }}
-      >
-        {compact && (
-          <div className="flex items-center gap-2.5 mb-5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md">
-              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>sync</span>
-            </div>
-            <span className="font-extrabold text-gray-900 tracking-tight text-xl">TeamSync</span>
+        {/* Mobile Stats Summary */}
+        <div className="flex md:hidden items-center justify-center gap-4 mb-8">
+          <div className="bg-white/70 backdrop-blur-md border border-white/60 rounded-xl px-4 py-2.5 shadow-sm flex items-center gap-3">
+             <span className="material-symbols-outlined text-purple-600" style={{ fontSize: '20px' }}>local_fire_department</span>
+             <span className="text-lg font-black text-gray-900">24</span>
           </div>
-        )}
-        <h1 className={`font-extrabold text-gray-900 tracking-tight leading-tight ${compact ? 'text-3xl mb-2' : 'text-5xl mb-4 px-16'}`}>
-          Focus on <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">what matters.</span>
-        </h1>
-        <p className={`font-medium text-gray-500/90 tracking-wide ${compact ? 'text-sm' : 'text-xl'}`}>
-          Let everything else float away.
-        </p>
+          <div className="bg-white/70 backdrop-blur-md border border-white/60 rounded-xl px-4 py-2.5 shadow-sm flex items-center gap-3">
+             <span className="material-symbols-outlined text-indigo-600" style={{ fontSize: '20px' }}>bolt</span>
+             <span className="text-lg font-black text-gray-900">70%</span>
+          </div>
+        </div>
+
+        {/* Hero Text */}
+        <div className="text-center" style={{ transform: `translate(${-mousePos.x * 0.3}px, ${-mousePos.y * 0.3}px)` }}>
+          <h1 className="text-5xl md:text-7xl font-black text-gray-900 tracking-tight leading-[1.1] mb-6">
+            Focus on <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-[length:200%_auto] animate-shimmer">
+              what matters.
+            </span>
+          </h1>
+          <p className="text-lg md:text-2xl font-medium text-gray-500/90 tracking-wide max-w-xl mx-auto mb-10 leading-relaxed">
+            Eliminate noise and amplify productivity with the next generation of project management.
+          </p>
+          
+          <button 
+            onClick={scrollToLogin}
+            className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gray-900 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-xl hover:shadow-indigo-500/20"
+          >
+            Get Started
+            <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">east</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Scroll Hint */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-400 animate-bounce cursor-pointer" onClick={scrollToLogin}>
+        <span className="text-[10px] font-bold uppercase tracking-widest">Scroll to start</span>
+        <span className="material-symbols-outlined">expand_more</span>
       </div>
     </div>
   );
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-[#fafafa] font-sans overflow-x-hidden selection:bg-indigo-500/30">
+    <div className="flex flex-col min-h-screen bg-[#fafafa] font-sans selection:bg-indigo-500/30">
+      
+      {/* ── Section 1: Hero Branding ── */}
+      <BrandingHero />
 
-      {/* ── Mobile Branding Banner (top, compact) ── */}
-      <div className="lg:hidden relative bg-gradient-to-br from-indigo-100/80 via-purple-50 to-pink-100/50 overflow-hidden border-b border-white/50 min-h-[300px] flex items-center justify-center">
-        <BrandingContent compact={true} />
-      </div>
+      {/* ── Section 2: Login Form ── */}
+      <div 
+        ref={loginSectionRef}
+        className="relative flex items-center justify-center min-h-screen p-6 sm:p-12 overflow-hidden bg-white"
+      >
+        {/* Subtle background decoration for form section */}
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-50 rounded-full blur-3xl opacity-50" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-50 rounded-full blur-3xl opacity-50" />
 
-      {/* ── Desktop Left Panel ── */}
-      <div className="hidden lg:flex lg:w-[55%] relative bg-gradient-to-br from-indigo-100/80 via-purple-50 to-pink-100/50 items-center justify-center overflow-hidden border-r border-white/50">
-        <BrandingContent compact={false} />
-      </div>
-
-      {/* ── Right Side / Login Form ── */}
-      <div className="w-full lg:w-[45%] flex items-center justify-center p-6 sm:p-10 lg:p-12 relative z-10 min-h-screen lg:min-h-0">
-
-        {/* ── Centered Glassmorphic Card ── */}
-        <div className="w-full max-w-[420px] animate-levitate animation-delay-2000">
-          <div className="bg-white/70 backdrop-blur-xl rounded-[20px] shadow-[0_20px_60px_-15px_rgba(99,102,241,0.1)] border border-white/60 p-7 sm:p-10 transition-transform duration-500 hover:-translate-y-1 relative">
-
-            {/* Subtle inner top glare */}
-            <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-100"></div>
-
-            <div className="mb-8">
-              <h2 className="text-[26px] sm:text-[28px] font-extrabold text-gray-900 tracking-tight mb-1.5">
+        <div className="w-full max-w-[440px] relative z-10">
+          <div className="bg-white rounded-[32px] shadow-2xl border border-gray-100 p-8 sm:p-12 transition-all duration-500 relative">
+            
+            <div className="mb-10 text-center">
+              <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-3">
                 {isLogin ? 'Welcome Back' : 'Create Account'}
               </h2>
-              <p className="text-gray-500 text-sm font-medium">
-                {isLogin ? 'Sign in to TeamSync to continue' : 'Join TeamSync and experience deep focus'}
+              <p className="text-gray-500 font-medium">
+                {isLogin ? 'Enter your details to access your workspace' : 'Start your journey with TeamSync today'}
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
 
-              {/* Toggle Tabs (Member / Admin) */}
-              <div className="relative flex p-1 bg-gray-100/60 rounded-[14px] border border-gray-200/50 backdrop-blur-sm">
-                <div className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-[10px] shadow-sm border border-gray-200/50 transition-all duration-300 ease-out ${form.role === 'admin' ? 'translate-x-full' : 'translate-x-0'}`} />
+              {/* Role Toggle */}
+              <div className="relative flex p-1.5 bg-gray-50 rounded-2xl border border-gray-200">
+                <div className={`absolute inset-y-1.5 w-[calc(50%-6px)] bg-white rounded-xl shadow-sm border border-gray-100 transition-all duration-300 ease-out ${form.role === 'admin' ? 'translate-x-full left-1.5' : 'translate-x-0 left-1.5'}`} />
                 {['member', 'admin'].map(r => (
                   <button
                     key={r} type="button"
                     onClick={() => setForm({ ...form, role: r })}
-                    className={`relative z-10 flex-1 py-2 text-sm font-semibold rounded-[10px] transition-colors duration-300 capitalize
-                      ${form.role === r ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-700'}
+                    className={`relative z-10 flex-1 py-2.5 text-sm font-bold rounded-xl transition-colors duration-300 capitalize
+                      ${form.role === r ? 'text-indigo-600' : 'text-gray-400 hover:text-gray-600'}
                     `}
                   >
                     {r}
@@ -226,33 +217,33 @@ export default function LoginPage() {
               </div>
 
               {!isLogin && (
-                <div className="relative group mt-2">
+                <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <span className="material-symbols-outlined text-gray-400 group-focus-within:text-indigo-500 transition-colors" style={{ fontSize: '20px' }}>person</span>
                   </div>
                   <input
                     type="text" id="name" required
                     value={form.name} onChange={e => setForm({...form, name: e.target.value})}
-                    className="block w-full pl-11 pr-4 pt-6 pb-2.5 bg-white/60 border border-gray-200/80 rounded-xl text-sm transition-all focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-400 outline-none peer shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)]"
+                    className="block w-full pl-11 pr-4 pt-6 pb-2.5 bg-gray-50 border border-gray-200 rounded-2xl text-sm transition-all focus:bg-white focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 outline-none peer"
                     placeholder=" "
                   />
-                  <label htmlFor="name" className="absolute text-[13px] font-medium text-gray-400 duration-200 transform -translate-y-3 scale-85 top-[18px] z-10 origin-[0] left-11 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-3 peer-focus:text-indigo-600 pointer-events-none">
+                  <label htmlFor="name" className="absolute text-[13px] font-bold text-gray-400 duration-200 transform -translate-y-3 scale-85 top-[18px] z-10 origin-[0] left-11 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-3 peer-focus:text-indigo-600 pointer-events-none">
                     Full Name
                   </label>
                 </div>
               )}
 
-              <div className="relative group mt-2">
+              <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <span className="material-symbols-outlined text-gray-400 group-focus-within:text-indigo-500 transition-colors" style={{ fontSize: '20px' }}>mail</span>
                 </div>
                 <input
                   type="email" id="email" required
                   value={form.email} onChange={e => setForm({...form, email: e.target.value})}
-                  className="block w-full pl-11 pr-4 pt-6 pb-2.5 bg-white/60 border border-gray-200/80 rounded-xl text-sm transition-all focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-400 outline-none peer shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)]"
+                  className="block w-full pl-11 pr-4 pt-6 pb-2.5 bg-gray-50 border border-gray-200 rounded-2xl text-sm transition-all focus:bg-white focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 outline-none peer"
                   placeholder=" "
                 />
-                <label htmlFor="email" className="absolute text-[13px] font-medium text-gray-400 duration-200 transform -translate-y-3 scale-85 top-[18px] z-10 origin-[0] left-11 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-3 peer-focus:text-indigo-600 pointer-events-none">
+                <label htmlFor="email" className="absolute text-[13px] font-bold text-gray-400 duration-200 transform -translate-y-3 scale-85 top-[18px] z-10 origin-[0] left-11 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-3 peer-focus:text-indigo-600 pointer-events-none">
                   Email Address
                 </label>
               </div>
@@ -265,10 +256,10 @@ export default function LoginPage() {
                   <input
                     type={showPassword ? "text" : "password"} id="password" required minLength={6}
                     value={form.password} onChange={e => setForm({...form, password: e.target.value})}
-                    className="block w-full pl-11 pr-12 pt-6 pb-2.5 bg-white/60 border border-gray-200/80 rounded-xl text-sm transition-all focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-400 outline-none peer shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)]"
+                    className="block w-full pl-11 pr-12 pt-6 pb-2.5 bg-gray-50 border border-gray-200 rounded-2xl text-sm transition-all focus:bg-white focus:ring-4 focus:ring-indigo-500/5 focus:border-indigo-500 outline-none peer"
                     placeholder=" "
                   />
-                  <label htmlFor="password" className="absolute text-[13px] font-medium text-gray-400 duration-200 transform -translate-y-3 scale-85 top-[18px] z-10 origin-[0] left-11 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-3 peer-focus:text-indigo-600 pointer-events-none">
+                  <label htmlFor="password" className="absolute text-[13px] font-bold text-gray-400 duration-200 transform -translate-y-3 scale-85 top-[18px] z-10 origin-[0] left-11 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-3 peer-focus:text-indigo-600 pointer-events-none">
                     Password
                   </label>
                   <button
@@ -281,9 +272,8 @@ export default function LoginPage() {
                     </span>
                   </button>
                 </div>
-
                 {isLogin && (
-                  <div className="flex justify-end mt-3">
+                  <div className="flex justify-end mt-3 px-1">
                     <a href="#" className="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors">
                       Forgot password?
                     </a>
@@ -293,29 +283,27 @@ export default function LoginPage() {
 
               <button
                 type="submit" disabled={loading}
-                className="w-full mt-2 py-3.5 px-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 bg-[length:200%_auto] hover:bg-[position:100%_0] text-white text-[15px] font-bold rounded-xl shadow-[0_8px_20px_-6px_rgba(99,102,241,0.5)] transform transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-6px_rgba(99,102,241,0.7)] active:translate-y-0 active:scale-[0.98] flex items-center justify-center gap-2"
+                className="w-full mt-2 py-4 px-6 bg-indigo-600 text-white font-bold rounded-2xl shadow-lg shadow-indigo-200 transition-all hover:bg-indigo-700 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loading ? (
-                  <span className="loader-spinner !w-5 !h-5 !border-2 !border-white/40 !border-t-white" />
+                  <div className="loader-spinner !w-5 !h-5 !border-2 !border-white/20 !border-t-white" />
                 ) : (
                   <>
                     {isLogin ? 'Sign In' : 'Create Account'}
-                    <span className="material-symbols-outlined text-[18px] opacity-90">east</span>
+                    <span className="material-symbols-outlined text-[20px]">east</span>
                   </>
                 )}
               </button>
 
-              {/* Divider */}
-              <div className="relative flex items-center py-1">
-                <div className="flex-grow border-t border-gray-200/80"></div>
-                <span className="flex-shrink-0 mx-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Or</span>
-                <div className="flex-grow border-t border-gray-200/80"></div>
+              <div className="relative flex items-center py-2">
+                <div className="flex-grow border-t border-gray-100"></div>
+                <span className="flex-shrink-0 mx-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Secure Connect</span>
+                <div className="flex-grow border-t border-gray-100"></div>
               </div>
 
-              {/* Google Button */}
               <button
                 type="button"
-                className="w-full py-3 px-4 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 text-sm font-bold rounded-xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] flex items-center justify-center gap-3"
+                className="w-full py-4 px-6 bg-white border border-gray-200 text-gray-700 font-bold rounded-2xl shadow-sm transition-all hover:bg-gray-50 hover:border-gray-300 flex items-center justify-center gap-3"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -327,16 +315,22 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div className="mt-8 text-center text-[13px] font-medium text-gray-500">
-              {isLogin ? "Don't have an account? " : "Already have an account? "}
+            <div className="mt-10 text-center text-sm font-bold">
+              <span className="text-gray-400">
+                {isLogin ? "Don't have an account?" : "Already have an account?"}
+              </span>
               <button
                 onClick={() => setIsLogin(!isLogin)}
-                className="text-indigo-600 hover:text-indigo-800 hover:underline transition-colors ml-1 font-bold"
+                className="text-indigo-600 hover:text-indigo-800 transition-colors ml-2"
               >
-                {isLogin ? 'Sign up' : 'Sign in'}
+                {isLogin ? 'Sign up for free' : 'Sign in to workspace'}
               </button>
             </div>
           </div>
+          
+          <p className="mt-8 text-center text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">
+            &copy; 2026 TeamSync. All Rights Reserved.
+          </p>
         </div>
       </div>
     </div>
