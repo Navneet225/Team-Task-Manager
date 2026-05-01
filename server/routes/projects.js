@@ -36,8 +36,8 @@ router.get('/', async (req, res) => {
 });
 
 // @route  POST /api/projects
-// @desc   Create a new project (Admin only)
-router.post('/', adminOnly, [
+// @desc   Create a new project
+router.post('/', [
   body('title').trim().isLength({ min: 3 }).withMessage('Title must be at least 3 characters'),
   body('description').optional().trim()
 ], async (req, res) => {
@@ -86,8 +86,8 @@ router.get('/:id', async (req, res) => {
 });
 
 // @route  PUT /api/projects/:id
-// @desc   Update project (Admin only)
-router.put('/:id', adminOnly, async (req, res) => {
+// @desc   Update project
+router.put('/:id', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ message: 'Project not found' });
@@ -113,8 +113,8 @@ router.put('/:id', adminOnly, async (req, res) => {
 });
 
 // @route  DELETE /api/projects/:id
-// @desc   Delete project (Admin/owner only)
-router.delete('/:id', adminOnly, async (req, res) => {
+// @desc   Delete project
+router.delete('/:id', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ message: 'Project not found' });
@@ -133,8 +133,8 @@ router.delete('/:id', adminOnly, async (req, res) => {
 });
 
 // @route  POST /api/projects/:id/members
-// @desc   Add member to project (Admin only)
-router.post('/:id/members', adminOnly, async (req, res) => {
+// @desc   Add member to project
+router.post('/:id/members', async (req, res) => {
   try {
     const { userId } = req.body;
     const project = await Project.findById(req.params.id);
@@ -158,8 +158,8 @@ router.post('/:id/members', adminOnly, async (req, res) => {
 });
 
 // @route  DELETE /api/projects/:id/members/:userId
-// @desc   Remove member from project (Admin only)
-router.delete('/:id/members/:userId', adminOnly, async (req, res) => {
+// @desc   Remove member from project
+router.delete('/:id/members/:userId', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ message: 'Project not found' });

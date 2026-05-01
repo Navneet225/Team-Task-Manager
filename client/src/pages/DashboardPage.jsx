@@ -96,20 +96,21 @@ export default function DashboardPage() {
   return (
     <div className="max-w-5xl mx-auto">
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+      <div className="flex items-center justify-between gap-3 mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-2">My Tasks</h1>
-          <p className="text-gray-500">Here&apos;s what you need to focus on today.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight mb-1">My Tasks</h1>
+          <p className="text-gray-500 text-sm">Here&apos;s what you need to focus on today.</p>
         </div>
         <button 
           onClick={() => {
             toast.success('Select a project first to create a task');
             navigate('/projects');
           }}
-          className="btn-primary shrink-0 shadow-sm"
+          className="btn-primary shrink-0 shadow-sm text-sm"
         >
-          <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>add</span>
-          Create Task
+          <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>add</span>
+          <span className="hidden sm:inline">Create Task</span>
+          <span className="sm:hidden">Add</span>
         </button>
       </div>
 

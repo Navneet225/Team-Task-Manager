@@ -84,19 +84,18 @@ export default function ProjectsPage() {
   return (
     <div className="max-w-6xl mx-auto">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+      <div className="flex items-center justify-between gap-3 mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-2">Projects</h1>
-          <p className="text-gray-500">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight mb-1">Projects</h1>
+          <p className="text-gray-500 text-sm">
             {projects.length} active project{projects.length !== 1 ? 's' : ''}
           </p>
         </div>
-        {isAdmin && (
-          <button onClick={openCreate} className="btn-primary shrink-0 shadow-sm">
-            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>add</span>
-            New Project
-          </button>
-        )}
+        <button onClick={openCreate} className="btn-primary shrink-0 shadow-sm text-sm">
+          <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>add</span>
+          <span className="hidden sm:inline">New Project</span>
+          <span className="sm:hidden">New</span>
+        </button>
       </div>
 
       {/* Content */}
@@ -112,14 +111,12 @@ export default function ProjectsPage() {
           </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">No projects yet</h3>
           <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">
-            {isAdmin ? "Create your first project to start organizing tasks." : "There are no active projects right now."}
+            Create your first project to start organizing tasks.
           </p>
-          {isAdmin && (
-            <button onClick={openCreate} className="btn-primary shadow-sm mx-auto">
-              <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>add</span>
-              Create Project
-            </button>
-          )}
+          <button onClick={openCreate} className="btn-primary shadow-sm mx-auto">
+            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>add</span>
+            Create Project
+          </button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -138,7 +135,7 @@ export default function ProjectsPage() {
                   <div className="w-10 h-10 rounded-lg flex items-center justify-center shadow-sm" style={{ backgroundColor: `${p.color}15`, color: p.color }}>
                     <span className="material-symbols-outlined">folder</span>
                   </div>
-                  {isAdmin && (
+                  {(isAdmin || p.owner?._id === user?._id || p.owner === user?._id) && (
                     <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button 
                         onClick={(e) => openEdit(e, p)}

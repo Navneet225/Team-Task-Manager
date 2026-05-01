@@ -181,7 +181,7 @@ export default function ProjectDetailPage() {
             )}
           </div>
           
-          {isAdmin && (
+          {(isAdmin || project.owner?._id === user?._id || project.owner === user?._id) && (
             <button
               onClick={() => setShowMembersModal(true)}
               className="p-2 text-gray-500 hover:text-indigo-600 border border-gray-200 rounded-lg hover:bg-indigo-50 hover:border-indigo-200 transition-colors"
