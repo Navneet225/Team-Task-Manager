@@ -81,51 +81,50 @@ export default function LoginPage() {
         <div className="absolute inset-0 pointer-events-none overflow-hidden hidden md:block">
           {/* Task List Card - Top Left */}
           <div
-            className="absolute top-[18%] left-[8%] w-60 bg-white/60 backdrop-blur-md border border-white/60 rounded-2xl p-4 shadow-float animate-antigravity"
+            className="absolute top-[10%] left-[5%] w-56 bg-white/60 backdrop-blur-md border border-white/60 rounded-2xl p-4 shadow-float animate-antigravity"
             style={{ transform: `rotate(-6deg) translate(${mousePos.x}px, ${mousePos.y}px)` }}
           >
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-3">
               <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
                 <span className="material-symbols-outlined text-indigo-600 text-[18px]">task_alt</span>
               </div>
-              <div className="h-2 w-24 bg-indigo-200/50 rounded-full"></div>
+              <div className="h-2 w-20 bg-indigo-200/50 rounded-full"></div>
             </div>
-            <div className="space-y-2.5">
-              <div className="h-2 w-full bg-gray-200/80 rounded-full"></div>
-              <div className="h-2 w-5/6 bg-gray-200/80 rounded-full"></div>
-              <div className="h-2 w-4/6 bg-gray-200/80 rounded-full"></div>
-            </div>
-          </div>
-
-          {/* Progress Card - Bottom Right */}
-          <div
-            className="absolute bottom-[18%] right-[8%] w-48 bg-white/70 backdrop-blur-lg border border-white/60 rounded-2xl p-6 shadow-float animate-antigravity animation-delay-2000"
-            style={{ transform: `rotate(6deg) translate(${-mousePos.x * 1.5}px, ${-mousePos.y * 1.5}px)` }}
-          >
-            <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Workspace</h4>
-            <div className="relative w-20 h-20 mx-auto">
-              <svg className="w-full h-full transform -rotate-90">
-                <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="7" fill="transparent" className="text-gray-100" />
-                <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="7" fill="transparent" strokeDasharray="226" strokeDashoffset="67" className="text-indigo-500" />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xl font-black text-gray-900">70%</span>
-              </div>
+            <div className="space-y-2">
+              <div className="h-1.5 w-full bg-gray-200/80 rounded-full"></div>
+              <div className="h-1.5 w-5/6 bg-gray-200/80 rounded-full"></div>
             </div>
           </div>
 
-          {/* Stats Card - Middle Right */}
+          {/* Stats Card - Top Right */}
           <div
-            className="absolute top-[35%] right-[12%] w-36 bg-white/50 backdrop-blur-sm border border-white/40 rounded-[24px] p-4 shadow-float animate-levitate animation-delay-4000"
-            style={{ transform: `rotate(-4deg) translate(${mousePos.x * 2}px, ${-mousePos.y * 2}px)` }}
+            className="absolute top-[10%] right-[5%] w-32 bg-white/50 backdrop-blur-sm border border-white/40 rounded-[20px] p-4 shadow-float animate-levitate animation-delay-4000"
+            style={{ transform: `rotate(4deg) translate(${mousePos.x * 2}px, ${-mousePos.y * 2}px)` }}
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center shadow-sm">
-                <span className="material-symbols-outlined text-purple-600" style={{ fontSize: '20px' }}>local_fire_department</span>
+              <div className="w-9 h-9 rounded-xl bg-purple-100 flex items-center justify-center shadow-sm">
+                <span className="material-symbols-outlined text-purple-600" style={{ fontSize: '18px' }}>local_fire_department</span>
               </div>
               <div>
-                <div className="text-xl font-black text-gray-900">24</div>
-                <div className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">Active</div>
+                <div className="text-lg font-black text-gray-900">24</div>
+                <div className="text-[8px] font-bold text-gray-500 uppercase tracking-wider">Active</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Progress Card - Bottom Left */}
+          <div
+            className="absolute bottom-[10%] left-[5%] w-40 bg-white/70 backdrop-blur-lg border border-white/60 rounded-2xl p-5 shadow-float animate-antigravity animation-delay-2000"
+            style={{ transform: `rotate(5deg) translate(${-mousePos.x * 1.5}px, ${-mousePos.y * 1.5}px)` }}
+          >
+            <h4 className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-3">Workspace</h4>
+            <div className="relative w-16 h-16 mx-auto">
+              <svg className="w-full h-full transform -rotate-90">
+                <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="6" fill="transparent" className="text-gray-100" />
+                <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="6" fill="transparent" strokeDasharray="176" strokeDashoffset="52" className="text-indigo-500" />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-lg font-black text-gray-900">70%</span>
               </div>
             </div>
           </div>
