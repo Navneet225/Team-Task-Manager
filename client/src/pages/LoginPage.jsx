@@ -79,50 +79,53 @@ export default function LoginPage() {
         
         {/* Floating Cards (Desktop only for full effect, simplified for mobile) */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden hidden md:block">
-          {/* Task List Card */}
+          {/* Task List Card - Top Left */}
           <div
-            className="absolute top-[15%] right-[10%] w-64 bg-white/60 backdrop-blur-md border border-white/60 rounded-2xl p-5 shadow-float animate-antigravity animation-delay-2000"
-            style={{ transform: `rotate(-8deg) translate(${mousePos.x}px, ${mousePos.y}px)` }}
+            className="absolute top-[18%] left-[8%] w-60 bg-white/60 backdrop-blur-md border border-white/60 rounded-2xl p-4 shadow-float animate-antigravity"
+            style={{ transform: `rotate(-6deg) translate(${mousePos.x}px, ${mousePos.y}px)` }}
           >
-            <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center mb-4 shadow-sm">
-              <span className="material-symbols-outlined text-indigo-600 text-[20px]">task_alt</span>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
+                <span className="material-symbols-outlined text-indigo-600 text-[18px]">task_alt</span>
+              </div>
+              <div className="h-2 w-24 bg-indigo-200/50 rounded-full"></div>
             </div>
-            <div className="space-y-3">
-              <div className="h-3 w-3/4 bg-gray-200/80 rounded-full"></div>
-              <div className="h-3 w-1/2 bg-gray-200/80 rounded-full"></div>
-              <div className="h-3 w-5/6 bg-gray-200/80 rounded-full"></div>
+            <div className="space-y-2.5">
+              <div className="h-2 w-full bg-gray-200/80 rounded-full"></div>
+              <div className="h-2 w-5/6 bg-gray-200/80 rounded-full"></div>
+              <div className="h-2 w-4/6 bg-gray-200/80 rounded-full"></div>
             </div>
           </div>
 
-          {/* Progress Card */}
+          {/* Progress Card - Bottom Right */}
           <div
-            className="absolute bottom-[20%] left-[5%] w-48 bg-white/70 backdrop-blur-lg border border-white/60 rounded-2xl p-6 shadow-float animate-antigravity"
-            style={{ transform: `rotate(5deg) translate(${-mousePos.x * 1.5}px, ${-mousePos.y * 1.5}px)` }}
+            className="absolute bottom-[18%] right-[8%] w-48 bg-white/70 backdrop-blur-lg border border-white/60 rounded-2xl p-6 shadow-float animate-antigravity animation-delay-2000"
+            style={{ transform: `rotate(6deg) translate(${-mousePos.x * 1.5}px, ${-mousePos.y * 1.5}px)` }}
           >
-            <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-5">Workspace Velocity</h4>
-            <div className="relative w-24 h-24 mx-auto">
+            <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Workspace</h4>
+            <div className="relative w-20 h-20 mx-auto">
               <svg className="w-full h-full transform -rotate-90">
-                <circle cx="48" cy="48" r="44" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-gray-100" />
-                <circle cx="48" cy="48" r="44" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="276" strokeDashoffset="82" className="text-indigo-500 transition-all duration-1000 ease-out" />
+                <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="7" fill="transparent" className="text-gray-100" />
+                <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="7" fill="transparent" strokeDasharray="226" strokeDashoffset="67" className="text-indigo-500" />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-2xl font-black text-gray-900">70%</span>
+                <span className="text-xl font-black text-gray-900">70%</span>
               </div>
             </div>
           </div>
 
-          {/* Stats Card */}
+          {/* Stats Card - Middle Right */}
           <div
-            className="absolute top-[35%] left-[8%] w-40 bg-white/50 backdrop-blur-sm border border-white/40 rounded-[24px] p-5 shadow-float animate-levitate animation-delay-6000"
-            style={{ transform: `rotate(-3deg) translate(${mousePos.x * 2}px, ${-mousePos.y * 2}px)` }}
+            className="absolute top-[35%] right-[12%] w-36 bg-white/50 backdrop-blur-sm border border-white/40 rounded-[24px] p-4 shadow-float animate-levitate animation-delay-4000"
+            style={{ transform: `rotate(-4deg) translate(${mousePos.x * 2}px, ${-mousePos.y * 2}px)` }}
           >
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center shadow-sm">
-                <span className="material-symbols-outlined text-purple-600" style={{ fontSize: '24px' }}>local_fire_department</span>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center shadow-sm">
+                <span className="material-symbols-outlined text-purple-600" style={{ fontSize: '20px' }}>local_fire_department</span>
               </div>
               <div>
-                <div className="text-2xl font-black text-gray-900">24</div>
-                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Active</div>
+                <div className="text-xl font-black text-gray-900">24</div>
+                <div className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">Active</div>
               </div>
             </div>
           </div>
