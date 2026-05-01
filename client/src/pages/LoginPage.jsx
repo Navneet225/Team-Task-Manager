@@ -13,7 +13,6 @@ export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  // Subtle parallax effect tracking
   useEffect(() => {
     const handleMouseMove = (e) => {
       setMousePos({
@@ -51,129 +50,156 @@ export default function LoginPage() {
     }
   };
 
-  return (
-    <div className="flex min-h-screen bg-[#fafafa] font-sans overflow-hidden relative selection:bg-indigo-500/30">
-      
-      {/* ── Left Side (Visual / Branding Panel) ── */}
-      <div className="hidden lg:flex lg:w-[55%] relative bg-gradient-to-br from-indigo-100/80 via-purple-50 to-pink-100/50 items-center justify-center overflow-hidden border-r border-white/50">
-        
-        {/* Top-Left Branding */}
+  /* ── Shared Branding Content ── */
+  const BrandingContent = ({ compact = false }) => (
+    <div className={`relative flex flex-col items-center justify-center w-full h-full ${compact ? 'py-10 px-6' : 'px-16'}`}>
+      {/* Logo */}
+      {!compact && (
         <div className="absolute top-8 left-10 z-20 flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-lg">
             <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>sync</span>
           </div>
           <span className="font-extrabold text-gray-900 tracking-tight text-xl">TeamSync</span>
         </div>
+      )}
 
-        {/* Very light grid pattern overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]"></div>
+      {/* Grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]"></div>
 
-        {/* ── Floating 3D Background Elements ── */}
-        <div 
-          className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-indigo-300/30 rounded-full mix-blend-multiply filter blur-[80px] animate-antigravity"
-          style={{ transform: `translate(${-mousePos.x * 2}px, ${-mousePos.y * 2}px)` }}
-        />
-        <div 
-          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-300/30 rounded-full mix-blend-multiply filter blur-[100px] animate-antigravity-reverse animation-delay-2000"
-          style={{ transform: `translate(${mousePos.x * 3}px, ${mousePos.y * 3}px)` }}
-        />
-        <div 
-          className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-pink-300/20 rounded-full mix-blend-multiply filter blur-[60px] animate-levitate animation-delay-4000"
-        />
+      {/* Blobs */}
+      <div className="absolute top-1/4 left-1/4 w-[300px] h-[300px] bg-indigo-300/30 rounded-full mix-blend-multiply filter blur-[60px] animate-antigravity" style={{ transform: `translate(${-mousePos.x * 2}px, ${-mousePos.y * 2}px)` }} />
+      <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-purple-300/30 rounded-full mix-blend-multiply filter blur-[80px] animate-antigravity-reverse animation-delay-2000" style={{ transform: `translate(${mousePos.x * 3}px, ${mousePos.y * 3}px)` }} />
+      <div className="absolute top-1/2 left-1/2 w-[250px] h-[250px] bg-pink-300/20 rounded-full mix-blend-multiply filter blur-[50px] animate-levitate animation-delay-4000" />
 
-        {/* ── Floating UI Cards (Mini Dashboard Preview) ── */}
-        
-        {/* Task List Card (Tilted) */}
-        <div 
-          className="absolute top-[15%] right-[15%] w-64 bg-white/60 backdrop-blur-md border border-white/60 rounded-2xl p-4 shadow-[0_20px_40px_-15px_rgba(99,102,241,0.15)] animate-antigravity animation-delay-2000 rotate-[-8deg] z-0"
-          style={{ transform: `rotate(-8deg) translate(${mousePos.x}px, ${mousePos.y}px)` }}
-        >
-          <div className="w-8 h-8 rounded-lg bg-indigo-100/80 mb-4 flex items-center justify-center">
-            <span className="material-symbols-outlined text-indigo-500 text-[18px]">task_alt</span>
-          </div>
-          <div className="space-y-3">
-            <div className="h-2.5 w-3/4 bg-gray-200/80 rounded-full"></div>
-            <div className="h-2.5 w-1/2 bg-gray-200/80 rounded-full"></div>
-            <div className="h-2.5 w-5/6 bg-gray-200/80 rounded-full"></div>
-          </div>
-        </div>
-
-        {/* Progress Ring Card */}
-        <div 
-          className="absolute bottom-[20%] left-[10%] w-48 bg-white/70 backdrop-blur-lg border border-white/60 rounded-2xl p-5 shadow-[0_20px_40px_-15px_rgba(99,102,241,0.2)] animate-antigravity rotate-[5deg] z-0"
-          style={{ transform: `rotate(5deg) translate(${-mousePos.x * 1.5}px, ${-mousePos.y * 1.5}px)` }}
-        >
-          <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Progress</h4>
-          <div className="relative w-20 h-20 mx-auto">
-            <svg className="w-full h-full transform -rotate-90">
-              <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-gray-100" />
-              <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="226" strokeDashoffset="67" className="text-indigo-500 transition-all duration-1000 ease-out" />
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-lg font-bold text-gray-800">70%</span>
+      {/* Floating cards — hidden on compact mobile */}
+      {!compact && (
+        <>
+          {/* Task List Card */}
+          <div
+            className="absolute top-[15%] right-[15%] w-56 bg-white/60 backdrop-blur-md border border-white/60 rounded-2xl p-4 shadow-[0_20px_40px_-15px_rgba(99,102,241,0.15)] animate-antigravity animation-delay-2000 z-0"
+            style={{ transform: `rotate(-8deg) translate(${mousePos.x}px, ${mousePos.y}px)` }}
+          >
+            <div className="w-8 h-8 rounded-lg bg-indigo-100/80 mb-4 flex items-center justify-center">
+              <span className="material-symbols-outlined text-indigo-500 text-[18px]">task_alt</span>
+            </div>
+            <div className="space-y-3">
+              <div className="h-2.5 w-3/4 bg-gray-200/80 rounded-full"></div>
+              <div className="h-2.5 w-1/2 bg-gray-200/80 rounded-full"></div>
+              <div className="h-2.5 w-5/6 bg-gray-200/80 rounded-full"></div>
             </div>
           </div>
-        </div>
 
-        {/* Stats Card */}
-        <div 
-          className="absolute top-[40%] left-[5%] w-40 bg-white/50 backdrop-blur-sm border border-white/40 rounded-[20px] p-4 shadow-[0_15px_30px_-10px_rgba(124,58,237,0.15)] animate-levitate animation-delay-6000 rotate-[-3deg] z-0"
-          style={{ transform: `rotate(-3deg) translate(${mousePos.x * 2}px, ${-mousePos.y * 2}px)` }}
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
-              <span className="material-symbols-outlined text-purple-600">local_fire_department</span>
+          {/* Progress Ring Card */}
+          <div
+            className="absolute bottom-[20%] left-[10%] w-44 bg-white/70 backdrop-blur-lg border border-white/60 rounded-2xl p-5 shadow-[0_20px_40px_-15px_rgba(99,102,241,0.2)] animate-antigravity z-0"
+            style={{ transform: `rotate(5deg) translate(${-mousePos.x * 1.5}px, ${-mousePos.y * 1.5}px)` }}
+          >
+            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Progress</h4>
+            <div className="relative w-20 h-20 mx-auto">
+              <svg className="w-full h-full transform -rotate-90">
+                <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-gray-100" />
+                <circle cx="40" cy="40" r="36" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="226" strokeDashoffset="67" className="text-indigo-500 transition-all duration-1000 ease-out" />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-lg font-bold text-gray-800">70%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats Card */}
+          <div
+            className="absolute top-[40%] left-[5%] w-36 bg-white/50 backdrop-blur-sm border border-white/40 rounded-[20px] p-4 shadow-[0_15px_30px_-10px_rgba(124,58,237,0.15)] animate-levitate animation-delay-6000 z-0"
+            style={{ transform: `rotate(-3deg) translate(${mousePos.x * 2}px, ${-mousePos.y * 2}px)` }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+                <span className="material-symbols-outlined text-purple-600">local_fire_department</span>
+              </div>
+              <div>
+                <div className="text-2xl font-black text-gray-900">24</div>
+                <div className="text-[10px] font-bold text-gray-500 uppercase">Tasks</div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Compact floating cards for mobile */}
+      {compact && (
+        <div className="flex items-center justify-center gap-4 mb-6 relative z-10">
+          <div className="bg-white/70 backdrop-blur-md border border-white/60 rounded-xl p-3 shadow-md flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+              <span className="material-symbols-outlined text-purple-600" style={{ fontSize: '18px' }}>local_fire_department</span>
             </div>
             <div>
-              <div className="text-2xl font-black text-gray-900">24</div>
-              <div className="text-[10px] font-bold text-gray-500 uppercase">Tasks</div>
+              <div className="text-lg font-black text-gray-900">24</div>
+              <div className="text-[9px] font-bold text-gray-500 uppercase">Tasks</div>
+            </div>
+          </div>
+          <div className="bg-white/70 backdrop-blur-md border border-white/60 rounded-xl p-3 shadow-md">
+            <div className="text-[9px] font-bold text-gray-500 uppercase mb-2">Progress</div>
+            <div className="relative w-12 h-12 mx-auto">
+              <svg className="w-full h-full transform -rotate-90">
+                <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="5" fill="transparent" className="text-gray-100" />
+                <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="5" fill="transparent" strokeDasharray="125" strokeDashoffset="37" className="text-indigo-500" />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-xs font-bold text-gray-800">70%</span>
+              </div>
             </div>
           </div>
         </div>
+      )}
 
-        {/* ── Visual Content (Text) ── */}
-        <div className="relative z-10 text-center px-16 flex flex-col items-center max-w-2xl" style={{ transform: `translate(${-mousePos.x * 0.5}px, ${-mousePos.y * 0.5}px)` }}>
-          <div className="absolute -top-32 mb-10 w-16 h-16 rounded-2xl bg-white/80 backdrop-blur-xl flex items-center justify-center text-indigo-600 shadow-xl shadow-indigo-500/20 border border-white/50">
-            <span className="material-symbols-outlined" style={{ fontSize: '32px' }}>flare</span>
+      {/* Headline */}
+      <div
+        className={`relative z-10 text-center flex flex-col items-center ${compact ? '' : 'max-w-2xl'}`}
+        style={compact ? {} : { transform: `translate(${-mousePos.x * 0.5}px, ${-mousePos.y * 0.5}px)` }}
+      >
+        {compact && (
+          <div className="flex items-center gap-2.5 mb-5">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md">
+              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>sync</span>
+            </div>
+            <span className="font-extrabold text-gray-900 tracking-tight text-xl">TeamSync</span>
           </div>
-          <h1 className="text-5xl font-extrabold text-gray-900 tracking-tight mb-4 leading-tight">
-            Focus on <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">what matters.</span>
-          </h1>
-          <p className="text-xl font-medium text-gray-500/90 tracking-wide">
-            Let everything else float away.
-          </p>
-        </div>
+        )}
+        <h1 className={`font-extrabold text-gray-900 tracking-tight leading-tight ${compact ? 'text-3xl mb-2' : 'text-5xl mb-4 px-16'}`}>
+          Focus on <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">what matters.</span>
+        </h1>
+        <p className={`font-medium text-gray-500/90 tracking-wide ${compact ? 'text-sm' : 'text-xl'}`}>
+          Let everything else float away.
+        </p>
+      </div>
+    </div>
+  );
 
+  return (
+    <div className="flex flex-col lg:flex-row min-h-screen bg-[#fafafa] font-sans overflow-x-hidden selection:bg-indigo-500/30">
+
+      {/* ── Mobile Branding Banner (top, compact) ── */}
+      <div className="lg:hidden relative bg-gradient-to-br from-indigo-100/80 via-purple-50 to-pink-100/50 overflow-hidden border-b border-white/50 min-h-[300px] flex items-center justify-center">
+        <BrandingContent compact={true} />
       </div>
 
-      {/* ── Right Side (Login Panel) ── */}
-      <div className="w-full lg:w-[45%] flex items-center justify-center p-6 sm:p-12 relative z-10 min-h-screen">
-        
-        {/* Mobile Background */}
-        <div className="lg:hidden absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-purple-50 -z-10 overflow-hidden">
-           <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-200/30 rounded-full mix-blend-multiply blur-[80px] animate-antigravity"></div>
-           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-200/30 rounded-full mix-blend-multiply blur-[80px] animate-antigravity-reverse"></div>
-        </div>
+      {/* ── Desktop Left Panel ── */}
+      <div className="hidden lg:flex lg:w-[55%] relative bg-gradient-to-br from-indigo-100/80 via-purple-50 to-pink-100/50 items-center justify-center overflow-hidden border-r border-white/50">
+        <BrandingContent compact={false} />
+      </div>
+
+      {/* ── Right Side / Login Form ── */}
+      <div className="w-full lg:w-[45%] flex items-center justify-center p-6 sm:p-10 lg:p-12 relative z-10 min-h-screen lg:min-h-0">
 
         {/* ── Centered Glassmorphic Card ── */}
         <div className="w-full max-w-[420px] animate-levitate animation-delay-2000">
-          
-          <div className="bg-white/70 backdrop-blur-xl rounded-[20px] shadow-[0_20px_60px_-15px_rgba(99,102,241,0.1)] border border-white/60 p-8 sm:p-10 transition-transform duration-500 hover:-translate-y-1 relative">
-            
+          <div className="bg-white/70 backdrop-blur-xl rounded-[20px] shadow-[0_20px_60px_-15px_rgba(99,102,241,0.1)] border border-white/60 p-7 sm:p-10 transition-transform duration-500 hover:-translate-y-1 relative">
+
             {/* Subtle inner top glare */}
             <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-100"></div>
 
             <div className="mb-8">
-              {/* Mobile-only branding */}
-              <div className="flex items-center gap-2.5 mb-6 lg:hidden">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md">
-                  <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>sync</span>
-                </div>
-                <span className="font-extrabold text-gray-900 tracking-tight text-xl">TeamSync</span>
-              </div>
-
-              <h2 className="text-[28px] font-extrabold text-gray-900 tracking-tight mb-1.5 flex items-center gap-2">
+              <h2 className="text-[26px] sm:text-[28px] font-extrabold text-gray-900 tracking-tight mb-1.5">
                 {isLogin ? 'Welcome Back' : 'Create Account'}
               </h2>
               <p className="text-gray-500 text-sm font-medium">
@@ -182,14 +208,10 @@ export default function LoginPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-              
+
               {/* Toggle Tabs (Member / Admin) */}
               <div className="relative flex p-1 bg-gray-100/60 rounded-[14px] border border-gray-200/50 backdrop-blur-sm">
-                {/* Sliding Indicator */}
-                <div 
-                  className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-[10px] shadow-sm border border-gray-200/50 transition-all duration-300 ease-out ${form.role === 'admin' ? 'translate-x-full' : 'translate-x-0'}`} 
-                />
-                
+                <div className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-[10px] shadow-sm border border-gray-200/50 transition-all duration-300 ease-out ${form.role === 'admin' ? 'translate-x-full' : 'translate-x-0'}`} />
                 {['member', 'admin'].map(r => (
                   <button
                     key={r} type="button"
@@ -249,10 +271,8 @@ export default function LoginPage() {
                   <label htmlFor="password" className="absolute text-[13px] font-medium text-gray-400 duration-200 transform -translate-y-3 scale-85 top-[18px] z-10 origin-[0] left-11 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-85 peer-focus:-translate-y-3 peer-focus:text-indigo-600 pointer-events-none">
                     Password
                   </label>
-                  
-                  {/* Show/Hide Toggle */}
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-indigo-600 transition-colors"
                   >
@@ -261,7 +281,7 @@ export default function LoginPage() {
                     </span>
                   </button>
                 </div>
-                
+
                 {isLogin && (
                   <div className="flex justify-end mt-3">
                     <a href="#" className="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors">
@@ -280,7 +300,7 @@ export default function LoginPage() {
                 ) : (
                   <>
                     {isLogin ? 'Sign In' : 'Create Account'}
-                    <span className="material-symbols-outlined text-[18px] opacity-90 transition-transform">east</span>
+                    <span className="material-symbols-outlined text-[18px] opacity-90">east</span>
                   </>
                 )}
               </button>
@@ -292,7 +312,7 @@ export default function LoginPage() {
                 <div className="flex-grow border-t border-gray-200/80"></div>
               </div>
 
-              {/* Minimal Google Button */}
+              {/* Google Button */}
               <button
                 type="button"
                 className="w-full py-3 px-4 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 text-sm font-bold rounded-xl shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] flex items-center justify-center gap-3"
@@ -309,7 +329,7 @@ export default function LoginPage() {
 
             <div className="mt-8 text-center text-[13px] font-medium text-gray-500">
               {isLogin ? "Don't have an account? " : "Already have an account? "}
-              <button 
+              <button
                 onClick={() => setIsLogin(!isLogin)}
                 className="text-indigo-600 hover:text-indigo-800 hover:underline transition-colors ml-1 font-bold"
               >
