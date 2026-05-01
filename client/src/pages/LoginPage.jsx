@@ -165,6 +165,14 @@ export default function LoginPage() {
             <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-100"></div>
 
             <div className="mb-8">
+              {/* Mobile-only branding */}
+              <div className="flex items-center gap-2.5 mb-6 lg:hidden">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md">
+                  <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>sync</span>
+                </div>
+                <span className="font-extrabold text-gray-900 tracking-tight text-xl">TeamSync</span>
+              </div>
+
               <h2 className="text-[28px] font-extrabold text-gray-900 tracking-tight mb-1.5 flex items-center gap-2">
                 {isLogin ? 'Welcome Back' : 'Create Account'}
               </h2>
